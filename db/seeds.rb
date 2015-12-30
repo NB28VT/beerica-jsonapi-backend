@@ -212,6 +212,8 @@ State.create([
 ])
 
 
+User.create(name: "Hank Hill")
+
 
 Brewery.create(name: "Rock Art Brewery", address: "632 Laporte Rd, Morrisville, VT 05661", state_id: 45)
 Brewery.create(name: "The Alchemist", address: "35 Crossroad Rd, Waterbury, VT 05676", state_id: 45)
@@ -224,9 +226,9 @@ Beer.create(name: "Heady Topper", abv: "8%", brewery_id: 2)
 
 Beer.create(name: "Boston Lager", abv: "5%", brewery_id: 3)
 
-Review.create(title: "Underrated for sure", content: "This brewery kicks ass", brewery_id: 1)
-Review.create(title: "Overrated for sure", content: "People like it too much", brewery_id: 2)
-Review.create(title: "Tried and true", content: "Always good", brewery_id: 3)
+Review.create(title: "Underrated for sure", content: "This brewery kicks ass", brewery_id: 1, user_id: 1)
+Review.create(title: "Overrated for sure", content: "People like it too much", brewery_id: 2, user_id: 1)
+Review.create(title: "Tried and true", content: "Always good", brewery_id: 3,  user_id: 1)
 
 
 
