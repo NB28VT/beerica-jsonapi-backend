@@ -14,11 +14,11 @@ class BrewerySeeder
 
   def seed_breweries
     # Testing
-    state = @states.first
+    state = @states.find(45)
 
-    breweries = state.get_state_breweries(state.name)
+    breweries = self.get_state_breweries(state.name)
 
-    self.build_brewery(brewery.first, state)
+    self.build_brewery(breweries.first, state)
 
     # @states.each do |state|
     #   breweries = self.get_state_breweries(state.name)
@@ -29,8 +29,7 @@ class BrewerySeeder
     # end
   end
 
-  def build_brewery(brewery, state)
-    
+  def build_brewery(brewery, state)    
     if brewery[:open_to_public] == "Y"
       open_to_public = true
     else
@@ -46,7 +45,6 @@ class BrewerySeeder
       latitude: brewery[:latitude],
       longitude: brewery[:longitude],
 
-      # Boolean:
       open_to_public: open_to_public,
 
       description: brewery[:brewery][:description],
@@ -54,24 +52,12 @@ class BrewerySeeder
       established: brewery[:brewery][:established],
 
       # Images
-
       icon_image: brewery[:brewery][:images][:icon],
       medium_image: brewery[:brewery][:images][:medium],
       large_image: brewery[:brewery][:images][:large],
       square_medium_image: brewery[:brewery][:images][:square_medium],
-      square_large_image: brewery[:brewery][:images][:square_large],
-
-
-
-
-
-
-
-
+      square_large_image: brewery[:brewery][:images][:square_large]
     )
-
-
-
   end
 
   def get_state_breweries(state)
