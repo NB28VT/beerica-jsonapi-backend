@@ -17,6 +17,9 @@ gem 'jsonapi-resources'
 # Use for seeding brewery data
 gem 'brewery_db'
 
+# Used for seeding data can't get with gem
+gem 'curb'
+
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -32,6 +35,8 @@ group :development, :test do
   gem 'byebug'
   gem 'dotenv-rails'
   gem 'awesome_print'
+  gem 'pry'
+
 end
 
 group :development do

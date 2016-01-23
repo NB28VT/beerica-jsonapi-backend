@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160103005353) do
+ActiveRecord::Schema.define(version: 20160123213041) do
 
   create_table "beers", force: :cascade do |t|
     t.string   "name"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20160103005353) do
     t.string   "large_image"
     t.string   "square_medium_image"
     t.string   "square_large_image"
+    t.string   "brewery_db_id"
   end
 
   create_table "reviews", force: :cascade do |t|

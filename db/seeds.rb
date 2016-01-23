@@ -212,23 +212,29 @@ State.create([
 ])
 
 
-User.create(name: "Hank Hill")
+brewery_seeder = BrewerySeeder.new
+brewery_seeder.seed_breweries
 
 
-Brewery.create(name: "Rock Art Brewery", address: "632 Laporte Rd, Morrisville, VT 05661", state_id: 45)
-Brewery.create(name: "The Alchemist", address: "35 Crossroad Rd, Waterbury, VT 05676", state_id: 45)
-Brewery.create(name: "Samuel Adams", address: "30 Germania St, Boston, MA 02130", state_id: 21)
+# Testing, remove later:
 
-Beer.create(name: "Ridge Runner", abv: "8%", brewery_id: 1)
-Beer.create(name: "Vermontster", abv: "10%", brewery_id: 1)
+# User.create(name: "Hank Hill")
 
-Beer.create(name: "Heady Topper", abv: "8%", brewery_id: 2)
 
-Beer.create(name: "Boston Lager", abv: "5%", brewery_id: 3)
+# Brewery.create(name: "Rock Art Brewery", address: "632 Laporte Rd, Morrisville, VT 05661", state_id: 45)
+# Brewery.create(name: "The Alchemist", address: "35 Crossroad Rd, Waterbury, VT 05676", state_id: 45)
+# Brewery.create(name: "Samuel Adams", address: "30 Germania St, Boston, MA 02130", state_id: 21)
 
-Review.create(title: "Underrated for sure", content: "This brewery kicks ass", brewery_id: 1, user_id: 1)
-Review.create(title: "Overrated for sure", content: "People like it too much", brewery_id: 2, user_id: 1)
-Review.create(title: "Tried and true", content: "Always good", brewery_id: 3,  user_id: 1)
+# Beer.create(name: "Ridge Runner", abv: "8%", brewery_id: 1)
+# Beer.create(name: "Vermontster", abv: "10%", brewery_id: 1)
+
+# Beer.create(name: "Heady Topper", abv: "8%", brewery_id: 2)
+
+# Beer.create(name: "Boston Lager", abv: "5%", brewery_id: 3)
+
+# Review.create(title: "Underrated for sure", content: "This brewery kicks ass", brewery_id: 1, user_id: 1)
+# Review.create(title: "Overrated for sure", content: "People like it too much", brewery_id: 2, user_id: 1)
+# Review.create(title: "Tried and true", content: "Always good", brewery_id: 3,  user_id: 1)
 
 
 

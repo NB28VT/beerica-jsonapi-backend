@@ -1,7 +1,6 @@
 require 'json'
 require 'dotenv'
 
-
 class BrewerySeeder
 
   def initialize
@@ -13,12 +12,14 @@ class BrewerySeeder
   end
 
   def seed_breweries
-    # Testing
+    # Testing with Vermont
     state = @states.find(45)
 
     breweries = self.get_state_breweries(state.name)
 
-    self.build_brewery(breweries.first, state)
+    binding.pry
+
+    # self.build_brewery(breweries.first, state)
 
     # @states.each do |state|
     #   breweries = self.get_state_breweries(state.name)
@@ -36,7 +37,8 @@ class BrewerySeeder
       open_to_public = false
     end
 
-    Brewery.create(
+    brewery = Brewery.create(
+      brewery_db_id: brewery[:id],
       state: state,
       name: brewery[:brewery][:name],
       address: brewery[:street_address],
@@ -58,7 +60,67 @@ class BrewerySeeder
       square_medium_image: brewery[:brewery][:images][:square_medium],
       square_large_image: brewery[:brewery][:images][:square_large]
     )
+
+
+    if brewery.save
+      stock_beers(brewery)
+    end
   end
+
+
+  def stock_beers(brewery)
+    beers_path = "http://api.brewerydb.com/v2/brewery/#{brewery.brewery_db_id}/beers?key=#{ENV['BREWERY_DB_API_TOKEN']}"
+
+    c = Curl.get(beers_path) do |cc|
+      cc.connect_timeout = 60
+      cc.timeout = 300
+    end
+
+    response = JSON.parse(c.body_str)
+
+    if response[:data]
+      # Dry this up
+      beer = response[:data]
+
+      # Keep working on this with this data:
+      # http://www.brewerydb.com/developers/docs-endpoint/brewery_beer
+
+      Beer.create(
+        brewery: brewery,
+        name: beer[:name],
+        abv: beer[:abv],
+
+        # new rows
+        # desc text!!
+        description: beer[:description],
+        style: beer[:style][:name],
+
+      icon_image: brewery[:brewery][:images][:icon],
+      medium_image: brewery[:brewery][:images][:medium],
+      large_image: brewery[:brewery][:images][:large],
+      square_medium_image: brewery[:brewery][:images][:square_medium],
+      square_large_image: brewery[:brewery][:images][:square_large]        
+
+
+
+
+
+
+
+
+      )
+    end
+  end
+
+
+
+    # Hardcode for testing:
+
+    # beers = brewery_db.brewery(brewery.brewery_db_id).beers
+
+
+  end
+
 
   def get_state_breweries(state)
     @brewery_db.locations.all(region: state)
