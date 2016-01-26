@@ -12,14 +12,14 @@ class BrewerySeeder
   end
 
   def seed_breweries
-    # Testing with Vermont
+    # Testing with Vermont, limited batch
     state = @states.find(45)
 
-    breweries = self.get_state_breweries(state.name)
+    breweries = self.get_state_breweries(state.name).first(20)
 
-    binding.pry
-
-    # self.build_brewery(breweries.first, state)
+    breweries.each do |brewery|
+      self.build_brewery(brewery, state)
+    end
 
     # @states.each do |state|
     #   breweries = self.get_state_breweries(state.name)
@@ -37,7 +37,7 @@ class BrewerySeeder
       open_to_public = false
     end
 
-    brewery = Brewery.create(
+    new_brewery = Brewery.create(
       brewery_db_id: brewery[:id],
       state: state,
       name: brewery[:brewery][:name],
@@ -53,17 +53,20 @@ class BrewerySeeder
       website: brewery[:brewery][:website],
       established: brewery[:brewery][:established],
 
-      # Images
-      icon_image: brewery[:brewery][:images][:icon],
-      medium_image: brewery[:brewery][:images][:medium],
-      large_image: brewery[:brewery][:images][:large],
-      square_medium_image: brewery[:brewery][:images][:square_medium],
-      square_large_image: brewery[:brewery][:images][:square_large]
     )
 
+    # Images
 
-    if brewery.save
-      stock_beers(brewery)
+    if brewery[:brewery][:images]
+      new_brewery.icon_image = brewery[:brewery][:images][:icon]
+      new_brewery.medium_image = brewery[:brewery][:images][:medium]
+      new_brewery.large_image = brewery[:brewery][:images][:large]
+      new_brewery.square_medium_image = brewery[:brewery][:images][:square_medium]
+      new_brewery.square_large_image = brewery[:brewery][:images][:square_large]
+    end
+
+    if new_brewery.save
+      stock_beers(new_brewery)
     end
   end
 
@@ -78,47 +81,28 @@ class BrewerySeeder
 
     response = JSON.parse(c.body_str)
 
-    if response[:data]
+    puts ap response
+
+    if response["data"]
       # Dry this up
-      beer = response[:data]
+      beer = response["data"][0]
 
-      # Keep working on this with this data:
+      # Here is the available beer data:
       # http://www.brewerydb.com/developers/docs-endpoint/brewery_beer
-
-      Beer.create(
+      
+      new_beer = Beer.create(
         brewery: brewery,
-        name: beer[:name],
-        abv: beer[:abv],
-
-        # new rows
-        # desc text!!
-        description: beer[:description],
-        style: beer[:style][:name],
-
-      icon_image: brewery[:brewery][:images][:icon],
-      medium_image: brewery[:brewery][:images][:medium],
-      large_image: brewery[:brewery][:images][:large],
-      square_medium_image: brewery[:brewery][:images][:square_medium],
-      square_large_image: brewery[:brewery][:images][:square_large]        
-
-
-
-
-
-
-
-
+        name: beer["name"],
+        abv: beer["abv"],
+        description: beer["description"],
       )
+
+      if beer["style"]
+        new_beer.style = beer["style"]["name"]
+      end
+
+      new_beer.save
     end
-  end
-
-
-
-    # Hardcode for testing:
-
-    # beers = brewery_db.brewery(brewery.brewery_db_id).beers
-
-
   end
 
 
