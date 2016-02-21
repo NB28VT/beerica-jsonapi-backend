@@ -101,6 +101,13 @@ class BrewerySeeder
         new_beer.style = beer["style"]["name"]
       end
 
+      if beer["labels"]
+        new_beer.medium_label = beer["labels"]["medium"]
+        new_beer.large_label = beer["labels"]["large"]
+        new_beer.icon = beer["labels"]["icon"]
+      end
+
+
       new_beer.save
     end
   end
