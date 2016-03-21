@@ -13,21 +13,21 @@ class BrewerySeeder
 
   def seed_breweries
     # Testing with Vermont, limited batch
-    state = @states.find(45)
+    # state = @states.find(45)
 
-    breweries = self.get_state_breweries(state.name).first(20)
+    # breweries = self.get_state_breweries(state.name).first(20)
 
-    breweries.each do |brewery|
-      self.build_brewery(brewery, state)
-    end
-
-    # @states.each do |state|
-    #   breweries = self.get_state_breweries(state.name)
-
-    #   breweries.each do |brewery|
-    #     self.build_brewery(brewery, state)
-    #   end
+    # breweries.each do |brewery|
+    #   self.build_brewery(brewery, state)
     # end
+
+    @states.each do |state|
+      breweries = self.get_state_breweries(state.name)
+
+      breweries.each do |brewery|
+        self.build_brewery(brewery, state)
+      end
+    end
   end
 
   def build_brewery(brewery, state)    
@@ -65,9 +65,9 @@ class BrewerySeeder
       new_brewery.square_large_image = brewery[:brewery][:images][:square_large]
     end
 
-    if new_brewery.save
-      stock_beers(new_brewery)
-    end
+    # if new_brewery.save
+    #   stock_beers(new_brewery)
+    # end
   end
 
 
@@ -81,7 +81,7 @@ class BrewerySeeder
 
     response = JSON.parse(c.body_str)
 
-    puts ap response
+    # puts ap response
 
     if response["data"]
       # Dry this up
