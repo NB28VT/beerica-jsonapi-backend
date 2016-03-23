@@ -1,11 +1,11 @@
 require 'json'
-require 'dotenv'
+# require 'dotenv'
 
 class BrewerySeeder
 
   def initialize
     @brewery_db = BreweryDB::Client.new do |config|
-      config.api_key = ENV['BREWERY_DB_API_TOKEN']
+      config.api_key = BREWERY_DB_API_TOKEN
     end
 
     @states = State.all    
